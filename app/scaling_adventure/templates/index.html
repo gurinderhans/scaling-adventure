@@ -17,7 +17,6 @@
 
     <div class="matched_images">
       <ul>
-        
       </ul>
     </div>
 
@@ -37,6 +36,13 @@
           var fileData = new FormData();
 
           fileData.append('file', uploadedFile);
+
+          // update text
+          var secondsPassed = 0;
+          var timer = setInterval(function() {
+            secondsPassed++;
+            $(".upload-status").text('Uploading... ['+secondsPassed+']');
+          }, 1000);
 
           $.ajax({
             type: 'POST',

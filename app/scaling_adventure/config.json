@@ -1,4 +1,5 @@
 {
   "uploads_folder" : "/",
-  "eigen_models_folder" : "/"
+  "eigen_models_folder" : "/",
+  "detected_images_folder": "/"
 }

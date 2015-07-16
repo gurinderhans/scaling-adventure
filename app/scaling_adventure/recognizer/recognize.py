@@ -12,7 +12,7 @@ class Recognizer(object):
         self.threshold = float(compareThreshold)
 
     """_"""
-    def compareWith(self, eigenModelFile):
+    def compareWith(self, eigenModelFile, detectedFilesDir):
         model = cv2.createEigenFaceRecognizer(threshold=self.threshold)
 
         # Load the model
@@ -36,7 +36,7 @@ class Recognizer(object):
         # If the model found something, print the file path
         if (p_label > -1):
             count = 0
-            for dirname, dirnames, filenames in os.walk(self.path):
+            for dirname, dirnames, filenames in os.walk(detectedFilesDir):
                 for subdirname in dirnames:
                     subject_path = os.path.join(dirname, subdirname)
                     if (count == p_label):

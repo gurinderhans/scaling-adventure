@@ -28,7 +28,7 @@ class Recognizer(object):
         [p_label, p_confidence] = model_prediction
 
         # Print the confidence levels
-        print "Predicted label = {0} (confidence={1})".format(p_label, p_confidence)
+        # print "Predicted label = {0} (confidence={1})".format(p_label, p_confidence)
 
         # hold all the found images paths
         result_paths = []
@@ -45,7 +45,7 @@ class Recognizer(object):
 
                     count = count+1
 
-        return result_paths + model_prediction
+        return (result_paths, model_prediction)
 
 
 # [SAMPLE USAGE]

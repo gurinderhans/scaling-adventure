@@ -1,10 +1,13 @@
-import os
+import os, json
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug import secure_filename
 from recognizer.recognize import Recognizer
 
-UPLOAD_FOLDER = '/Users/ghans/Documents/Tate-Hack/app/scaling_adventure/uploads/' # must be absolute
-EIGEN_MODELS_FOLDER = '/' # must be absolute
+# load json data
+json_config = json.load(open('config.json'))
+
+UPLOAD_FOLDER = json_config['uploads_folder']
+EIGEN_MODELS_FOLDER = json_config['eigen_models_folder']
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app = Flask(__name__)
@@ -32,12 +35,16 @@ def upload_file():
         fileSavePath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(fileSavePath)
 
-        # TODO: processing here....
-        # recognizer = Recognizer(app.config['EIGEN_MODELS_FOLDER'], fileSavePath, 1000)
-        # recognizer.compareWith('eigenModel_1.xml')
+        recognizer_data = []
+        # heavy processing here....
+        recognizer = Recognizer(app.config['EIGEN_MODELS_FOLDER'], fileSavePath, 1000)
+        for i in os.listdir(app.config['EIGEN_MODELS_FOLDER']):
+            compared_data = recognizer.compareWith(os.path.join(app.config['EIGEN_MODELS_FOLDER'], i))
+            recognizer_data.append(compared_data)
 
-        return str(1)
+        return json.dumps(recognizer_data)
+
     return str(0)
 
 if __name__ == '__main__':
-  app.run(debug=True)
+  app.run(host='0.0.0.0', port=8080, debug=True)
